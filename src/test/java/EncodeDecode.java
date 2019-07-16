@@ -1,3 +1,4 @@
+import model.Message;
 import org.junit.Test;
 
 /**
@@ -10,11 +11,11 @@ public class EncodeDecode {
         Steganography stega = new Steganography();
         AES aes = new AES();
 
-        String textInput = "This is a secret string for testing";
+        Message textInput = new Message("This is a secret string for testing");
         String passphrase = "supersecretpassword!";
 
         //encrypt the string
-        String encryptedText = aes.encrypt(textInput, passphrase);
+        String encryptedText = aes.encrypt(textInput.toString(), passphrase);
 
         //steganography encode
         String resourcePath = this.getClass().getResource("").getFile();
@@ -26,6 +27,7 @@ public class EncodeDecode {
         //decrypt
         String decryptedText = aes.decrypt(decodedImageContent, passphrase);
 
-        assert decryptedText.equals(textInput);
+        System.out.println(decryptedText);
+        assert decryptedText.equals(textInput.toString());
     }
 }
