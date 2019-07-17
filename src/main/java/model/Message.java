@@ -21,6 +21,9 @@ public class Message {
         this.crc32 = calculateCRC32();
     }
 
+    public Message() {
+    }
+
     public String getContent() {
         return content;
     }
@@ -50,7 +53,11 @@ public class Message {
 
     private Long calculateCRC32() {
         CRC32 crc = new CRC32();
-        crc.update(this.toString().getBytes());
+        crc.update(this.getContent().getBytes());
         return crc.getValue();
+    }
+
+    public Boolean compareCRC32(Long providedCRC) {
+        return providedCRC.equals(getCRC32());
     }
 }

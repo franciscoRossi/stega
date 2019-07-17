@@ -1,4 +1,4 @@
-
+package utils;
 /*
  *@author  William_Wilson
  *@version 1.6
@@ -28,15 +28,15 @@ public class Steganography {
      *@param message  The text to hide in the image
      *@param type	  integer representing either basic or advanced encoding
      */
-    public boolean encode(String path, String original, String ext1, String stegan, String message) {
-        String file_name = image_path(path, original, ext1);
+    public boolean encode(String original, String stegan, String message) {
+        String file_name = original;
         BufferedImage image_orig = getImage(file_name);
 
         //user space is not necessary for Encrypting
         BufferedImage image = user_space(image_orig);
         image = add_text(image, message);
 
-        return (setImage(image, new File(image_path(path, stegan, "png")), "png"));
+        return (setImage(image, new File(stegan), "png"));
     }
 
     /*
@@ -45,11 +45,11 @@ public class Steganography {
      *@param name The name of the image to extract the message from
      *@param type integer representing either basic or advanced encoding
      */
-    public String decode(String path, String name) {
+    public String decode(String name) {
         byte[] decode;
         try {
             //user space is necessary for decrypting
-            BufferedImage image = user_space(getImage(image_path(path, name, "png")));
+            BufferedImage image = user_space(getImage(name));
             decode = decode_text(get_byte_data(image));
             return (new String(decode));
         } catch (Exception e) {
@@ -61,21 +61,10 @@ public class Steganography {
     }
 
     /*
-     *Returns the complete path of a file, in the form: path\name.ext
-     *@param path   The path (folder) of the file
-     *@param name The name of the file
-     *@param ext	  The extension of the file
-     *@return A String representing the complete path of a file
-     */
-    private String image_path(String path, String name, String ext) {
-        return path + "/" + name + "." + ext;
-    }
-
-    /*
      *Get method to return an image file
      *@param f The complete path name of the image.
      *@return A BufferedImage of the supplied file path
-     *@see	Steganography.image_path
+     *@see	utils.Steganography.image_path
      */
     private BufferedImage getImage(String f) {
         BufferedImage image = null;
