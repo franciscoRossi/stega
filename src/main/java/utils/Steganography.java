@@ -1,4 +1,4 @@
-
+package utils;
 /*
  *@author  William_Wilson
  *@version 1.6
@@ -75,7 +75,7 @@ public class Steganography {
      *Get method to return an image file
      *@param f The complete path name of the image.
      *@return A BufferedImage of the supplied file path
-     *@see	Steganography.image_path
+     *@see	utils.Steganography.image_path
      */
     private BufferedImage getImage(String f) {
         BufferedImage image = null;

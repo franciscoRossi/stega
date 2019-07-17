@@ -50,7 +50,7 @@ public class Message {
 
     private Long calculateCRC32() {
         CRC32 crc = new CRC32();
-        crc.update(this.toString().getBytes());
+        crc.update(this.getContent().getBytes());
         return crc.getValue();
     }
 }
