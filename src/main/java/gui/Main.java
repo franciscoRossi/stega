@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Message;
 import utils.AES;
 import utils.Steganography;
+import utils.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -75,9 +77,9 @@ public class Main extends JFrame {
 
     private String decodeImage(String secretKey, String inputImageName) {
         Steganography stega = new Steganography();
-        String encryptedMessage = stega.decode(inputImageName);
 
         try {
+            String encryptedMessage = stega.decode(Utils.readImage(inputImageName));
             AES aes = new AES();
             String decryptedMessage = aes.decrypt(encryptedMessage, secretKey);
             Message message = new ObjectMapper().readValue(decryptedMessage, Message.class);
@@ -108,7 +110,11 @@ public class Main extends JFrame {
         String encodedMessage = aes.encrypt(textInput.toString(), secretKey);
 
         Steganography stega = new Steganography();
-        stega.encode(inputImageName, inputImageName + "_out.png", encodedMessage);
+        try {
+            stega.encode(encodedMessage, Utils.readImage(inputImageName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String browseFile() {

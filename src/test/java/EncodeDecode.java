@@ -2,7 +2,9 @@ import model.Message;
 import org.junit.Test;
 import utils.AES;
 import utils.Steganography;
+import utils.Utils;
 
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 /**
@@ -11,7 +13,7 @@ import java.security.GeneralSecurityException;
 public class EncodeDecode {
 
     @Test
-    public void testEncodeAndDecode() throws GeneralSecurityException {
+    public void testEncodeAndDecode() throws GeneralSecurityException, IOException {
         Steganography stega = new Steganography();
         AES aes = new AES();
 
@@ -23,10 +25,10 @@ public class EncodeDecode {
 
         //steganography encode
         String resourcePath = this.getClass().getResource("").getFile();
-        stega.encode(resourcePath + "bliss.jpg", resourcePath + "out.png", encryptedText);
+        stega.encode( encryptedText, Utils.readImage(resourcePath + "bliss.jpg"));
 
         //steganography decode
-        String decodedImageContent = stega.decode(resourcePath + "out.png");
+        String decodedImageContent = stega.decode(Utils.readImage(resourcePath + "bliss.jpg_out.png"));
 
         //decrypt
         String decryptedText = aes.decrypt(decodedImageContent, passphrase);
