@@ -96,8 +96,7 @@ public class Main extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }
-        catch (GeneralSecurityException e) {
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error on message decryption", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
@@ -139,4 +138,6 @@ public class Main extends JFrame {
         frame.setSize(1280, 720);
         frame.setVisible(true);
     }
+
+
 }
