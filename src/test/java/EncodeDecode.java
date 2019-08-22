@@ -6,6 +6,7 @@ import utils.Utils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.UUID;
 
 /**
  * Created by pupi on 16/07/19.
@@ -17,7 +18,11 @@ public class EncodeDecode {
         Steganography stega = new Steganography();
         AES aes = new AES();
 
-        Message textInput = new Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        StringBuilder message = new StringBuilder();
+        for (int i = 0; i<5000; i++) {
+            message.append(UUID.randomUUID().toString().replace("-", ""));
+        }
+        Message textInput = new Message(message.toString());
         String passphrase = "supersecretpasssword!";
 
         //encrypt the string
@@ -25,10 +30,10 @@ public class EncodeDecode {
 
         //steganography encode
         String resourcePath = this.getClass().getResource("").getFile();
-        stega.encode( encryptedText, Utils.readImage(resourcePath + "bliss.jpg"));
+        stega.encode( encryptedText, Utils.readImage(resourcePath + "obelisco.jpg"));
 
         //steganography decode
-        String decodedImageContent = stega.decode(Utils.readImage(resourcePath + "bliss.jpg_out.png"));
+        String decodedImageContent = stega.decode(Utils.readImage(resourcePath + "obelisco.jpg_out.png"));
 
         //decrypt
         String decryptedText = aes.decrypt(decodedImageContent, passphrase);
