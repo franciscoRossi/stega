@@ -11,6 +11,11 @@ import java.awt.image.WritableRaster;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.zip.CRC32;
 
 public class Utils {
 
@@ -27,5 +32,22 @@ public class Utils {
         BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_3BYTE_BGR);
         img.setData(Raster.createRaster(img.getSampleModel(), new DataBufferByte(imageData, imageData.length), new Point() ) );
         ImageIO.write(img, "png", new FileOutputStream(imagePath));
+    }
+
+    public static byte getMeanValueOfSHAStringBytes(String key) {
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        byte[] shaBytes = digest != null ? digest.digest(key.getBytes(StandardCharsets.UTF_8)) : new byte[0];
+        int acc = 0;
+        for (int i = 0; i < shaBytes.length; i++) {
+                acc = acc + shaBytes[i];
+        }
+        return (byte) (acc / shaBytes.length);
     }
 }
