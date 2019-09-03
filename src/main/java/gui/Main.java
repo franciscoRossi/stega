@@ -79,7 +79,7 @@ public class Main extends JFrame {
         Steganography stega = new Steganography();
 
         try {
-            String encryptedMessage = stega.decode(Utils.readImage(inputImageName));
+            String encryptedMessage = stega.decode(Utils.readImage(inputImageName), Utils.getMeanValueOfSHAStringBytes(secretKey), true);
             AES aes = new AES();
             String decryptedMessage = aes.decrypt(encryptedMessage, secretKey);
             Message message = new ObjectMapper().readValue(decryptedMessage, Message.class);
@@ -110,7 +110,7 @@ public class Main extends JFrame {
 
         Steganography stega = new Steganography();
         try {
-            stega.encode(encodedMessage, Utils.readImage(inputImageName));
+            stega.encode(encodedMessage, Utils.readImage(inputImageName), Utils.getMeanValueOfSHAStringBytes(secretKey), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
